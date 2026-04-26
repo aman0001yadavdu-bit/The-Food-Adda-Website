@@ -21,16 +21,19 @@
             <img src="logo.png" alt="TFA Logo" class="logo-img">
             <a href="index.html" class="logo-text">The Food Adda</a>
         </div>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active">Home</a></li>
+        
+        <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="menu.html">Menu</a></li>
             <li><a href="story-adda.html">Adda Stories</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+        
         <a href="menu.html" class="cart-icon">🛒 <span id="cart-count">0</span></a>
     </nav>
-
     <header class="hero-section">
         <h1>Your Ultimate College Adda</h1>
         <p>Serving the best snacks, beverages, and comfort food near GBU. A space to relax, recharge, and connect.</p>
@@ -65,6 +68,11 @@
         <p>&copy; 2026 The Food Adda | Website By Aman Yadav K</p>
         <div class="social-icons"> IG  </div>
     </footer>
-
+<script>
+        function toggleMobileMenu() {
+            const nav = document.getElementById('nav-links');
+            nav.classList.toggle('active-mobile');
+        }
+    </script>
 </body>
 </html>
