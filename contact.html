@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Food Adda | Find Us & Get in Touch</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px; }
+        .contact-info { background: var(--bg-card); padding: 40px; border-radius: 15px; }
+        .info-item { display: flex; align-items: start; gap: 15px; margin-bottom: 25px; }
+        .info-item h4 { color: var(--primary-color); text-transform: uppercase; font-size: 0.8rem; }
+        .info-item p { color: var(--text-primary); }
+
+        /* Simplified, clean form for multi-page demo */
+        .simple-form { background: #111; padding: 40px; border-radius: 15px; border: 1px solid #333; }
+        .form-group { margin-bottom: 20px; }
+        .form-control { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; background: #222; color: white; }
+        .form-control:focus { border-color: var(--primary-color); outline: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-area">
+            <img src="logo.png" alt="TFA Logo" class="logo-img">
+            <a href="index.html" class="logo-text">The Food Adda</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="story-adda.html">Adda Stories</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+        <a href="menu.html" class="cart-icon">🛒 <span id="cart-count">0</span></a>
+    </nav>
+
+    <div class="container">
+        <h2 style="text-align:center; color:var(--primary-color);">Find Your Adda</h2>
+        <p style="text-align:center; max-width:600px; margin: 15px auto 50px auto; color:var(--text-secondary);">We are conveniently located near Gautam Buddha University. Come visit us for a study break!</p>
+        
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="info-item">
+                    <span>📍</span>
+                    <div>
+                        <h4>Our Location</h4>
+                        <p>Shop Number 7, Gautam Buddha University, Kasna Village, Greater Noida, Uttar Pradesh 201312</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span>📞</span>
+                    <div>
+                        <h4>Student Hotline</h4>
+                        <p>06398656629</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span>🕒</span>
+                    <div>
+                        <h4>Operational Hours</h4>
+                        <p>Open Daily | 10:30 AM to 11:00 PM</p>
+                    </div>
+                </div>
+            </div>
+            
+           <div style="border-radius:15px; overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); min-height: 300px;">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28070.14837146316!2d77.52908799999999!3d28.42624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cc10444d7533d%3A0xc65ef9cd785be572!2sThe%20Food%20Adda!5e0!3m2!1sen!2sin!4v1777200436168!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        width="100%" 
+        height="100%" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+        </div>
+
+        <div style="margin-top: 60px; text-align:center;">
+            <h2 style="color:var(--primary-color);">Have a Question?</h2>
+            <div class="simple-form" style="max-width: 600px; margin: 30px auto;">
+                <div class="form-group"><input type="text" class="form-control" placeholder="Your Student Name"></div>
+                <div class="form-group"><input type="email" class="form-control" placeholder="Student Email or Phone"></div>
+                <div class="form-group"><textarea class="form-control" rows="4" placeholder="Your Message..."></textarea></div>
+                <button class="btn" onclick="alert('Message Sent (Conceptual)!')">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Food Adda | Website By Aman Yadav K</p>
+        <div class="social-icons">IG </div>
+    </footer>
+
+</body>
+</html>

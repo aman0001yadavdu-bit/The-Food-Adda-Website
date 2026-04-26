@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Food Adda | Taste the Magic</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .testimonial-card { background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid #333; }
+        .stars { color: #f1c40f; margin-bottom: 10px; font-size: 1.2rem; }
+        .quote { font-style: italic; color: var(--text-primary); margin-bottom: 15px; }
+        .author { color: var(--primary-color); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
+        .author-meta { font-size: 0.8rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-area">
+            <img src="logo.png" alt="TFA Logo" class="logo-img">
+            <a href="index.html" class="logo-text">The Food Adda</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="story-adda.html">Adda Stories</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="menu.html" class="cart-icon">🛒 <span id="cart-count">0</span></a>
+    </nav>
+
+    <header class="hero-section">
+        <h1>Your Ultimate College Adda</h1>
+        <p>Serving the best snacks, beverages, and comfort food near GBU. A space to relax, recharge, and connect.</p>
+        <div style="margin-top: 25px;"><a href="menu.html" class="btn">View Our Menu</a></div>
+    </header>
+
+    <div class="container">
+        <h2 style="text-align:center; color:var(--primary-color);">What Our Community is Saying</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">“Paratha white sauce pasta and burger are best”</p>
+                <p class="author">Rahul Tomar</p>
+                <p class="author-meta">Local Guide, GBU Area • 5 months ago</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★☆</div>
+                <p class="quote">“Good food at Reasonable rates available here. Fried momos are okay.”</p>
+                <p class="author">Hitanshu Varu</p>
+                <p class="author-meta">Local Guide, Kasna Village • 3 months ago</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">“Niceeee”</p>
+                <p class="author">Ananya Tripathi</p>
+                <p class="author-meta">Student • 2 months ago</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Food Adda | Website By Aman Yadav K</p>
+        <div class="social-icons"> IG  </div>
+    </footer>
+
+</body>
+</html>

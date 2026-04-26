@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Food Adda | The Full Student Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* UNIQUE STYLES for this page (from previous interaction) */
+        .controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 40px; }
+        .search-bar { padding: 12px 20px; border-radius: 25px; border: 1px solid #444; background: #222; color: white; width: 300px; }
+        .filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 18px; border-radius: 20px; border: 1px solid var(--primary-color); background: transparent; color: var(--primary-color); cursor: pointer; transition: 0.3s; }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary-color); color: var(--bg-darker); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .menu-item { background: var(--bg-card); padding: 25px; border-radius: 15px; border: 1px solid #333; transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-item:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .category { font-size: 0.8rem; color: var(--primary-color); text-transform: uppercase; font-weight: 600; margin-bottom: 5px; display: block; }
+        .menu-item h3 { font-size: 1.15rem; margin-bottom: 15px; }
+        .price-tag { color: var(--primary-color); font-weight: 600; font-size: 1.3rem; margin-bottom: 15px; }
+        .add-btn { background: #333; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .add-btn:hover { background: var(--primary-color); color: var(--bg-darker); }
+
+        /* CART SIDEBAR */
+        #cart-sidebar { position: fixed; right: -400px; top: 0; width: 380px; height: 100%; background: #111; box-shadow: -5px 0 15px rgba(0,0,0,0.7); z-index: 2000; transition: 0.4s; padding: 30px; display: flex; flex-direction: column; }
+        #cart-sidebar.open { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .cart-items { flex-grow: 1; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.95rem; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .cart-total { margin-top: 20px; border-top: 1px solid var(--primary-color); padding-top: 20px; font-size: 1.5rem; text-align: center; color: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-area">
+            <img src="logo.png" alt="TFA Logo" class="logo-img">
+            <a href="index.html" class="logo-text">The Food Adda</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="menu.html" class="active">Menu</a></li>
+            <li><a href="story-adda.html">Adda Stories</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+    </nav>
+
+    <div class="container">
+        <h2 style="text-align:center; color:var(--primary-color);">Digital GBU Adda Menu</h2>
+        <p style="text-align:center; color:var(--text-secondary); margin: 15px auto 40px auto; max-width:600px;">All your college favorites with the same rates as the physical menu. Fast, easy ordering.</p>
+        
+        <div class="controls">
+            <input type="text" id="search" class="search-bar" placeholder="Search (e.g., Momos)..." onkeyup="filterMenu()">
+            <div class="filter-buttons" id="filter-container"><button class="filter-btn active" onclick="setFilter('all')">All</button></div>
+        </div>
+        <div class="menu-grid" id="menu-display"></div>
+    </div>
+
+    <div id="cart-sidebar">
+        <div class="cart-header"><h2>Student Order</h2><button onclick="toggleCart()" style="background:none; border:none; color:white; cursor:pointer; font-size:2rem;">&times;</button></div>
+        <div class="cart-items" id="cart-list"></div>
+        <div class="cart-total">Total: ₹<span id="total-price">0</span></div>
+        <button class="checkout-btn" onclick="alert('Order Placed Successfully!')">Place Digital Order</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Food Adda | Website By Aman Yadav K</p>
+        <div class="social-icons"> IG </div>
+    </footer>
+
+    <script>
+        const menuData = [
+            // BEVERAGES
+            { id: 1, name: "Cold Coffee", price: 60, cat: "Beverages" },
+            { id: 2, name: "Hazelnut Cold Coffee", price: 70, cat: "Beverages" },
+            { id: 3, name: "Oreo Shake", price: 70, cat: "Beverages" },
+            { id: 4, name: "KitKat Shake", price: 70, cat: "Beverages" },
+            { id: 5, name: "Shikanji", price: 40, cat: "Beverages" },
+            { id: 6, name: "Lassi", price: 50, cat: "Beverages" },
+            // SANDWICH & SNACKS
+            { id: 7, name: "Grilled Sandwich", price: 50, cat: "Sandwich" },
+            { id: 8, name: "Cheese Sandwich", price: 70, cat: "Sandwich" },
+            { id: 9, name: "French Fries", price: 70, cat: "Snacks" },
+            // BURGERS
+            { id: 10, name: "Aloo Tikki Burger", price: 60, cat: "Burgers" },
+            { id: 11, name: "Cheese Burger", price: 70, cat: "Burgers" },
+            { id: 12, name: "Paneer Burger", price: 70, cat: "Burgers" },
+            // MAGGI
+            { id: 13, name: "Plain Maggi", price: 60, cat: "Maggi" },
+            { id: 14, name: "Cheese Maggi", price: 80, cat: "Maggi" },
+            { id: 15, name: "Paneer Maggi", price: 80, cat: "Maggi" },
+            // FRIED RICE
+            { id: 16, name: "Veg Fried Rice", price: 130, cat: "Fried Rice" },
+            { id: 17, name: "Egg Fried Rice", price: 150, cat: "Fried Rice" },
+            { id: 18, name: "Paneer Fried Rice", price: 160, cat: "Fried Rice" },
+            { id: 19, name: "Schezwan Fried Rice", price: 170, cat: "Fried Rice" },
+            { id: 20, name: "Chilli Garlic Fried Rice", price: 170, cat: "Fried Rice" },
+            // CHINESE STARTERS
+            { id: 21, name: "Chilli Potato", price: 120, cat: "Chinese" },
+            { id: 22, name: "Honey Chilli Potato", price: 130, cat: "Chinese" },
+            { id: 23, name: "Manchurian", price: 150, cat: "Chinese" },
+            { id: 24, name: "Chilli Paneer", price: 150, cat: "Chinese" },
+            // MOMOS (VEG)
+            { id: 25, name: "Veg Steam Momo", price: 100, cat: "Momos (Veg)" },
+            { id: 26, name: "Veg Fried Momo", price: 120, cat: "Momos (Veg)" },
+            { id: 27, name: "Veg Kurkure Momo", price: 140, cat: "Momos (Veg)" },
+            { id: 28, name: "Veg Tandoori Momo", price: 140, cat: "Momos (Veg)" },
+            // MOMOS (PANEER)
+            { id: 29, name: "Paneer Steam Momo", price: 120, cat: "Momos (Paneer)" },
+            { id: 30, name: "Paneer Fried Momo", price: 140, cat: "Momos (Paneer)" },
+            { id: 31, name: "Paneer Kurkure Momo", price: 160, cat: "Momos (Paneer)" },
+            { id: 32, name: "Paneer Tandoori Momo", price: 150, cat: "Momos (Paneer)" },
+            // ROLLS
+            { id: 33, name: "Veg Roll", price: 70, cat: "Rolls" },
+            { id: 34, name: "Paneer Roll", price: 90, cat: "Rolls" },
+            { id: 35, name: "Single Egg Roll", price: 90, cat: "Rolls" },
+            { id: 36, name: "Double Egg Roll", price: 110, cat: "Rolls" },
+            { id: 37, name: "Chowmein Roll", price: 100, cat: "Rolls" },
+            { id: 38, name: "Chaap Roll", price: 100, cat: "Rolls" },
+            // PASTA
+            { id: 39, name: "White Sauce Pasta", price: 130, cat: "Pasta" },
+            { id: 40, name: "Red Sauce Pasta", price: 120, cat: "Pasta" },
+            { id: 41, name: "Mix Sauce Pasta", price: 140, cat: "Pasta" },
+            // NOODLES
+            { id: 42, name: "Veg Noodles", price: 100, cat: "Noodles" },
+            { id: 43, name: "Paneer Noodles", price: 120, cat: "Noodles" },
+            { id: 44, name: "Hakka Noodles", price: 120, cat: "Noodles" },
+            { id: 45, name: "Singapore Noodles", price: 120, cat: "Noodles" },
+            { id: 46, name: "Chilli Garlic Noodles", price: 120, cat: "Noodles" },
+            { id: 47, name: "Schezwan Noodles", price: 120, cat: "Noodles" }
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+
+        function renderMenu(data) {
+            const display = document.getElementById('menu-display');
+            display.innerHTML = data.map(item => `
+                <div class="menu-item">
+                    <div>
+                        <span class="category">${item.cat}</span>
+                        <h3>${item.name}</h3>
+                    </div>
+                    <div>
+                        <p class="price-tag">₹${item.price}</p>
+                        <button class="add-btn" onclick="addToCart(${item.id})">Add to Student Order</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMenu() {
+            const term = document.getElementById('search').value.toLowerCase();
+            const filtered = menuData.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(term);
+                const matchesFilter = currentFilter === 'all' || item.cat.toLowerCase() === currentFilter.toLowerCase();
+                return matchesSearch && matchesFilter;
+            });
+            renderMenu(filtered);
+        }
+
+        function setFilter(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterMenu();
+        }
+
+        function addToCart(id) {
+            const item = menuData.find(i => i.id === id);
+            cart.push(item);
+            updateCart();
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cart-list');
+            list.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>₹${item.price}</span>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('total-price').innerText = total;
+        }
+
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+
+        // Initialize unique categories
+        const uniqueCats = ['Beverages', 'Sandwich', 'Snacks', 'Burgers', 'Maggi', 'Fried Rice', 'Chinese', 'Momos (Veg)', 'Momos (Paneer)', 'Rolls', 'Pasta', 'Noodles'];
+        const filterContainer = document.getElementById('filter-container');
+        uniqueCats.forEach(c => {
+            filterContainer.innerHTML += `<button class="filter-btn" onclick="setFilter('${c}')">${c}</button>`;
+        });
+
+        renderMenu(menuData);
+    </script>
+</body>
+</html>
