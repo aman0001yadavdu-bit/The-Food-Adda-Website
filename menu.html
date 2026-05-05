@@ -22,13 +22,39 @@
         .add-btn { background: #333; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; transition: 0.3s; }
         .add-btn:hover { background: var(--primary-color); color: var(--bg-darker); }
 
-        /* CART SIDEBAR */
-        #cart-sidebar { position: fixed; right: -400px; top: 0; width: 380px; height: 100%; background: #111; box-shadow: -5px 0 15px rgba(0,0,0,0.7); z-index: 2000; transition: 0.4s; padding: 30px; display: flex; flex-direction: column; }
-        #cart-sidebar.open { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .cart-items { flex-grow: 1; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.95rem; border-bottom: 1px solid #222; padding-bottom: 10px; }
-        .cart-total { margin-top: 20px; border-top: 1px solid var(--primary-color); padding-top: 20px; font-size: 1.5rem; text-align: center; color: var(--primary-color); }
+       <!-- CART WITH PAYMENT OPTIONS -->
+    <div id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Student Order</h2>
+            <button onclick="toggleCart()" style="background:none; border:none; color:white; cursor:pointer; font-size:2rem;">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-list"></div>
+        <div class="cart-total">Total: ₹<span id="total-price">0</span></div>
+        
+        <!-- NEW: Payment Section -->
+        <div class="payment-section" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #333;">
+            <h4 style="color: var(--primary-color); margin-bottom: 10px;">Payment Method</h4>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                    <input type="radio" name="payment" value="upi" checked onchange="toggleQR()" style="accent-color: var(--primary-color); transform: scale(1.2);"> 
+                    <span>UPI / Scan QR</span>
+                </label>
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                    <input type="radio" name="payment" value="cash" onchange="toggleQR()" style="accent-color: var(--primary-color); transform: scale(1.2);"> 
+                    <span>Cash at Shop No. 7</span>
+                </label>
+            </div>
+            
+            <!-- Dynamic QR Code Container -->
+            <div id="qr-container" style="display: block; text-align: center; margin-top: 15px;">
+                <!-- This generates a real mock QR code image using a public API -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=upi://pay?pa=tfa@ybl&pn=TheFoodAdda" alt="UPI QR" style="border-radius: 10px; border: 2px solid var(--primary-color); background: white; padding: 5px;">
+                <p style="font-size: 0.8rem; margin-top: 5px; color: var(--text-secondary);">Scan to pay exact amount</p>
+            </div>
+        </div>
+
+        <button class="checkout-btn" onclick="processCheckout()" style="background: var(--primary-color); color: var(--bg-darker); font-weight: bold; padding: 15px; border: none; border-radius: 8px; width: 100%; margin-top: 20px; cursor: pointer;">Confirm & Place Order</button>
+    </div>
     </style>
 </head>
 <body>
