@@ -205,12 +205,19 @@
             filterMenu();
         }
 
+        // --- HIGHLIGHT AND REPLACE FROM HERE DOWN ---
+
+        // 1. FIX: Updated to automatically open the sidebar
         function addToCart(id) {
             const item = menuData.find(i => i.id === id);
             cart.push(item);
             updateCart();
+            
+            // This line forces the cart to open
+            document.getElementById('cart-sidebar').classList.add('open');
         }
 
+        // Standard cart update logic
         function updateCart() {
             document.getElementById('cart-count').innerText = cart.length;
             const list = document.getElementById('cart-list');
@@ -225,22 +232,59 @@
             document.getElementById('total-price').innerText = total;
         }
 
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+        // Standard cart toggle
+        function toggleCart() { 
+            document.getElementById('cart-sidebar').classList.toggle('open'); 
+        }
+
+        // 2. NEW: Logic to show/hide the QR code based on selection
+        function toggleQR() {
+            const payMethod = document.querySelector('input[name="payment"]:checked').value;
+            const qrContainer = document.getElementById('qr-container');
+            
+            if (payMethod === 'upi') {
+                qrContainer.style.display = 'block';
+            } else {
+                qrContainer.style.display = 'none';
+            }
+        }
+
+        // 3. NEW: Smart Checkout Logic
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty! Add some Adda food first.");
+                return;
+            }
+            
+            const payMethod = document.querySelector('input[name="payment"]:checked').value;
+            const total = document.getElementById('total-price').innerText;
+            
+            if (payMethod === 'upi') {
+                alert(`Order Confirmed! 🚀\n\nPlease show your UPI success screen of ₹${total} at the counter.`);
+            } else {
+                alert(`Order Confirmed! 🚀\n\nPlease pay ₹${total} in cash at Shop No. 7 counter to collect your food.`);
+            }
+            
+            cart = [];
+            updateCart();
+            toggleCart(); 
+        }
 
         // Initialize unique categories
-        const uniqueCats = ['Beverages', 'Sandwich', 'Snacks', 'Burgers', 'Maggi', 'Fried Rice', 'Chinese', 'Momos (Veg)', 'Momos (Paneer)', 'Rolls', 'Pasta', 'Noodles'];
+        const uniqueCats = ['Beverages', 'Sandwich', 'Snacks', 'Burgers', 'Maggi', 'Fried Rice', 'Chinese', 'Momos (Veg)', 'Momos (Paneer)', 'Rolls', 'Pasta', 'Noodles', 'Parathas'];
         const filterContainer = document.getElementById('filter-container');
         uniqueCats.forEach(c => {
             filterContainer.innerHTML += `<button class="filter-btn" onclick="setFilter('${c}')">${c}</button>`;
         });
 
         renderMenu(menuData);
-    </script>
-    <script>
+        
+        // This is for the mobile menu (from earlier)
         function toggleMobileMenu() {
             const nav = document.getElementById('nav-links');
             nav.classList.toggle('active-mobile');
         }
     </script>
 </body>
+</html>
 </html>
